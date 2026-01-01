@@ -1,21 +1,14 @@
 from audio.loader import load_audio
-from audio.preprocessing import mel_spectrogram
 from audio.onset import detect_onsets
-import matplotlib.pyplot as plt
-import librosa.display
+from audio.pitch import detect_pitch
 
-y, sr = load_audio("test.wav")
+AUDIO_PATH = r"C:\hp\test.wav"
 
-# Detect onsets
-onset_times, onset_env = detect_onsets(y, sr)
+y, sr = load_audio(AUDIO_PATH)
 
-# Plot onset strength
-plt.figure(figsize=(10, 4))
-plt.plot(onset_env)
-plt.title("Onset Strength Over Time")
-plt.xlabel("Frame Index")
-plt.ylabel("Strength")
-plt.show()
+onset_times, _ = detect_onsets(y, sr)
+pitches = detect_pitch(y, sr, onset_times)
 
-print("Detected onset times (seconds):")
-print(onset_times)
+print("Detected notes:")
+for t, freq, note in pitches:
+    print(f"Time: {t:.2f}s | Frequency: {freq:.2f} Hz | Note: {note}")
