@@ -20,7 +20,7 @@ These features form the core audio analysis pipeline.
 ---
 
 ## Project Structure
-'''
+```
 music_game_ai/
 │
 ├── audio/
@@ -33,7 +33,7 @@ music_game_ai/
 │
 ├── requirements.txt
 └── README.md
-'''
+```
 
 ---
 
