@@ -4,6 +4,7 @@ from audio.pitch import detect_pitch
 from game.hit_objects import notes_to_hit_objects
 from game.judgement import judge_hit
 from game.scoring import ScoreManager
+from game.game_loop import GameLoop
 
 AUDIO_PATH = r"C:\hp\test.wav"
 
@@ -13,21 +14,8 @@ notes = detect_pitch(y, sr, onset_times)
 hit_objects = notes_to_hit_objects(notes)
 
 score_manager = ScoreManager()
+game = GameLoop(hit_objects, judge_hit, score_manager)
+game.run()
 
-# Simulate player input
-for obj in hit_objects:
-    note_time = obj["time"]
-    simulated_input = note_time + 0.03  # 30 ms late
-    judgement = judge_hit(note_time, simulated_input)
-
-    score_manager.apply_judgement(judgement)
-
-    print(
-        f"Note {obj['note']} | "
-        f"Judgement: {judgement} | "
-        f"Score: {score_manager.score} | "
-        f"Combo: {score_manager.combo}"
-    )
-
-print("\nFinal Results:")
+print("\nFinal Score Summary:")
 print(score_manager.summary())
